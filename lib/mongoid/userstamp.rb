@@ -56,7 +56,7 @@ module Mongoid
       end
 
       def field_opts(opts)
-        {type: ::Moped::BSON::ObjectId}.reverse_merge(opts || {})
+        {type: ::BSON::ObjectId}.reverse_merge(opts || {})
       end
 
       def has_current_user?
@@ -71,7 +71,7 @@ module Mongoid
         if value.respond_to?(:_id)
           value.try(:_id)
         elsif value.present?
-          ::Moped::BSON::ObjectId.from_string(value.to_s)
+          ::BSON::ObjectId.from_string(value.to_s)
         else
           nil
         end
