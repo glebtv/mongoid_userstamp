@@ -1,25 +1,25 @@
-# -*- encoding : utf-8 -*-
 module Mongoid
   module Userstamp
     class Config
       attr_writer :user_model
       attr_accessor :user_reader
-      attr_accessor :created_column
-      attr_accessor :created_column_opts
-      attr_accessor :created_accessor
-      attr_accessor :updated_column
-      attr_accessor :updated_column_opts
-      attr_accessor :updated_accessor
+      attr_accessor :creator_field
+      attr_accessor :updater_field
 
       def initialize(&block)
+        reset!
+        instance_eval(&block) if block_given?
+      end
+
+      def reset!
         @user_model = :user
         @user_reader = :current_user
-        @created_column = :created_by
-        @created_accessor = :creator
-        @updated_column = :updated_by
-        @updated_accessor = :updater
+        @creator_field = :creator
+        @updater_field = :updater
+      end
 
-        instance_eval(&block) if block_given?
+      def user_model_name
+        @user_model.to_s.classify
       end
 
       def user_model

@@ -6,9 +6,9 @@ describe Mongoid::Userstamp do
   let(:user_1) { User.create!(name: 'Charles Dikkens') }
   let(:user_2) { User.create!(name: 'Edmund Wells') }
 
-  it { should respond_to :created_by }
+  it { should respond_to :creator_id }
   it { should respond_to :creator }
-  it { should respond_to :updated_by }
+  it { should respond_to :updater_id }
   it { should respond_to :updater }
 
   describe '#current_user' do
@@ -31,9 +31,9 @@ describe Mongoid::Userstamp do
       subject.save!
     end
 
-    it { subject.created_by.should be_nil }
+    it { subject.creator_id.should be_nil }
     it { subject.creator.should be_nil }
-    it { subject.updated_by.should be_nil }
+    it { subject.updater_id.should be_nil }
     it { subject.updater.should be_nil }
   end
 
@@ -42,14 +42,14 @@ describe Mongoid::Userstamp do
 
     context 'set by id' do
       before do
-        subject.created_by = user_2._id
+        subject.creator_id = user_2._id
         subject.save!
       end
 
       it 'should not be overridden when saved' do
-        subject.created_by.should eq user_2.id
+        subject.creator_id.should eq user_2.id
         subject.creator.should eq user_2
-        subject.updated_by.should eq user_1.id
+        subject.updater_id.should eq user_1.id
         subject.updater.should eq user_1
       end
     end
@@ -60,9 +60,9 @@ describe Mongoid::Userstamp do
       end
       
       it 'should not be overridden when saved' do
-        subject.created_by.should eq user_2.id
+        subject.creator_id.should eq user_2.id
         subject.creator.should eq user_2
-        subject.updated_by.should eq user_1.id
+        subject.updater_id.should eq user_1.id
         subject.updater.should eq user_1
       end
     end
@@ -74,9 +74,9 @@ describe Mongoid::Userstamp do
       subject.save!
     end
 
-    it { subject.created_by.should == user_1.id }
+    it { subject.creator_id.should == user_1.id }
     it { subject.creator.should == user_1 }
-    it { subject.updated_by.should == user_1.id }
+    it { subject.updater_id.should == user_1.id }
     it { subject.updater.should == user_1 }
 
     context 'when updated by a user' do
@@ -85,9 +85,9 @@ describe Mongoid::Userstamp do
         subject.save!
       end
 
-      it { subject.created_by.should == user_1.id }
+      it { subject.creator_id.should == user_1.id }
       it { subject.creator.should == user_1 }
-      it { subject.updated_by.should == user_2.id }
+      it { subject.updater_id.should == user_2.id }
       it { subject.updater.should == user_2 }
     end
 
@@ -97,28 +97,24 @@ describe Mongoid::Userstamp do
         subject.save!
         user_1.destroy
         user_2.destroy
+        subject.reload
       end
 
-      it { subject.created_by.should == user_1.id }
+      it { subject.creator_id.should == user_1.id }
       it { subject.creator.should == nil }
-      it { subject.updated_by.should == user_2.id }
+      it { subject.updater_id.should == user_2.id }
       it { subject.updater.should == nil }
     end
   end
 
   describe '#config' do
-    before do
+    before :all do
       Mongoid::Userstamp.config do |c|
         c.user_reader = :current_user
         c.user_model  = :user
 
-        c.created_column   = :c_by
-        c.created_column_opts = {as: :created_by_id}
-        c.created_accessor = :created_by
-
-        c.updated_column   = :u_by
-        c.updated_column_opts = {as: :updated_by_id}
-        c.updated_accessor = :updated_by
+        c.creator_field   = :c_by
+        c.updater_field   = :u_by
       end
 
       # class definition must come after config
@@ -129,6 +125,9 @@ describe Mongoid::Userstamp do
         field :name
       end
     end
+    after :all do
+      Mongoid::Userstamp.config.reset!
+    end
     subject { Novel.new(name: 'Ethyl the Aardvark goes Quantity Surveying') }
 
     context 'when created by a user' do
@@ -137,12 +136,10 @@ describe Mongoid::Userstamp do
         subject.save!
       end
 
-      it { subject.c_by.should == user_1.id }
-      it { subject.created_by_id.should == user_1.id }
-      it { subject.created_by.should == user_1 }
-      it { subject.u_by.should == user_1.id }
-      it { subject.updated_by_id.should == user_1.id }
-      it { subject.updated_by.should == user_1 }
+      it { subject.c_by_id.should == user_1.id }
+      it { subject.c_by.should == user_1 }
+      it { subject.u_by_id.should == user_1.id }
+      it { subject.u_by.should == user_1 }
 
       context 'when updated by a user' do
         before do
@@ -150,12 +147,10 @@ describe Mongoid::Userstamp do
           subject.save!
         end
 
-        it { subject.c_by.should == user_1.id }
-        it { subject.created_by_id.should == user_1.id }
-        it { subject.created_by.should == user_1 }
-        it { subject.u_by.should == user_2.id }
-        it { subject.updated_by_id.should == user_2.id }
-        it { subject.updated_by.should == user_2 }
+        it { subject.c_by_id.should == user_1.id }
+        it { subject.c_by.should == user_1 }
+        it { subject.u_by_id.should == user_2.id }
+        it { subject.u_by.should == user_2 }
       end
     end
   end

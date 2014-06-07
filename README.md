@@ -1,4 +1,9 @@
-# MongoidUserstamp [![Build Status](https://secure.travis-ci.org/tbpro/mongoid_userstamp.png)](https://travis-ci.org/tbpro/mongoid_userstamp) [![Code Climate](https://codeclimate.com/github/tbpro/mongoid_userstamp.png)](https://codeclimate.com/github/tbpro/mongoid_userstamp)
+# WARNING
+
+This fork is INCOMPATIBLE with upstream due to different default field names
+
+This fork uses actual mongoid belongs_to relations instead of low level work with BSON fields. Primary reason for doing
+this is to support eager loading for creator/updater modifier
 
 MongoidUserstamp adds stamp columns for created by and updated by
 information within Rails applications using Mongoid ORM.
@@ -28,16 +33,9 @@ MongoidUserstamp is tested on the following versions:
     c.user_reader = :current_user
     c.user_model = :user
 
-    c.created_column = :created_by
-    c.created_accessor = :creator
+    c.creator_field = :creator
+    c.updater_field = :updater
 
-    c.updated_column = :updated_by
-    c.updated_accessor = :updater
-
-    # Optional config values
-
-    # c.created_alias = :c
-    # c.updated_alias = :u
   end
 
   # Example model
@@ -50,7 +48,7 @@ MongoidUserstamp is tested on the following versions:
   p = Person.create
 
   # Updater ObjectID or nil
-  p.updated_by
+  p.updater_id
   # => BSON::ObjectId('4f7c719f476da850ba000039')
 
   # Updater instance or nil
@@ -62,7 +60,7 @@ MongoidUserstamp is tested on the following versions:
   # => sets updated_by to my_user's ObjectID
 
   # Creator ObjectID or nil
-  p.created_by
+  p.creator_id
   # => BSON::ObjectId('4f7c719f476da850ba000039')
 
   # Creator instance or nil
@@ -84,9 +82,11 @@ Please use Ruby 1.9.3 hash syntax, as Mongoid 3 requires Ruby >= 1.9.3
 
 * [Thomas Boerger](http://www.tbpro.de)
 * [John Shields](https://github.com/johnnyshields)
+* [GlebTV](https://github.com/glebtv)
 
 ## Copyright
 
 Copyright (c) 2012-2013 Thomas Boerger Programmierung <http://www.tbpro.de>
+Copyright (c) 2014 glebtv <http://rocketscience.pro>
 
 Licensed under the MIT License (MIT). Refer to LICENSE for details.
