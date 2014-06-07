@@ -12,9 +12,9 @@ information within Rails applications using Mongoid ORM.
 
 MongoidUserstamp is tested on the following versions:
 
-* Ruby 1.9.3 and 2.0.0
-* Rails 3
-* Mongoid 3
+* Ruby 2.1.2
+* Rails 4
+* Mongoid 4
 
 ## Install
 
