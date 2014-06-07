@@ -19,7 +19,7 @@ MongoidUserstamp is tested on the following versions:
 ## Install
 
 ```ruby
-  gem 'mongoid_userstamp'
+  gem 'glebtv_mongoid_userstamp'
 ```
 
 ## Usage
