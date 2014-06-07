@@ -2,14 +2,14 @@ $:.push File.expand_path('../lib', __FILE__)
 require 'mongoid/userstamp/version'
 
 Gem::Specification.new do |s|
-  s.name        = 'mongoid_userstamp'
+  s.name        = 'glebtv_mongoid_userstamp'
   s.version     = Mongoid::Userstamp::VERSION
-  s.authors     = ['Thomas Boerger', 'Johnny Shields']
-  s.homepage    = 'https://github.com/tbpro/mongoid_userstamp'
+  s.authors     = ['GlebTv', 'Thomas Boerger', 'Johnny Shields']
+  s.homepage    = 'https://github.com/glebtv/mongoid_userstamp'
   s.license     = 'MIT'
   s.summary     = 'Userstamp for Mongoid'
   s.description = 'Userstamp for creator and updater columns using Mongoid'
-  s.email       = 'tboerger@tbpro.de'
+  s.email       = 'glebtv@gmail.com'
 
   s.files         = `git ls-files`.split($/)
   s.executables   = s.files.grep(%r{^bin/}) { |f| File.basename(f) }
