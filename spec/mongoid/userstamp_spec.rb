@@ -6,22 +6,22 @@ describe Mongoid::Userstamp do
   let(:user_1) { User.create!(name: 'Charles Dikkens') }
   let(:user_2) { User.create!(name: 'Edmund Wells') }
 
-  it { should respond_to :creator_id }
-  it { should respond_to :creator }
-  it { should respond_to :updater_id }
-  it { should respond_to :updater }
+  it { is_expected.to respond_to :creator_id }
+  it { is_expected.to respond_to :creator }
+  it { is_expected.to respond_to :updater_id }
+  it { is_expected.to respond_to :updater }
 
   describe '#current_user' do
     subject{ Mongoid::Userstamp.current_user }
 
     context 'when current user is not set' do
       before { User.current = nil }
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     context 'when current user is set' do
       before{ User.current = user_1 }
-      it { should eq user_1 }
+      it { is_expected.to eq user_1 }
     end
   end
 
@@ -31,10 +31,10 @@ describe Mongoid::Userstamp do
       subject.save!
     end
 
-    it { subject.creator_id.should be_nil }
-    it { subject.creator.should be_nil }
-    it { subject.updater_id.should be_nil }
-    it { subject.updater.should be_nil }
+    it { expect(subject.creator_id).to be_nil }
+    it { expect(subject.creator).to be_nil }
+    it { expect(subject.updater_id).to be_nil }
+    it { expect(subject.updater).to be_nil }
   end
 
   context 'when creator is manually set' do
@@ -47,10 +47,10 @@ describe Mongoid::Userstamp do
       end
 
       it 'should not be overridden when saved' do
-        subject.creator_id.should eq user_2.id
-        subject.creator.should eq user_2
-        subject.updater_id.should eq user_1.id
-        subject.updater.should eq user_1
+        expect(subject.creator_id).to eq user_2.id
+        expect(subject.creator).to eq user_2
+        expect(subject.updater_id).to eq user_1.id
+        expect(subject.updater).to eq user_1
       end
     end
     context 'set by model' do
@@ -60,10 +60,10 @@ describe Mongoid::Userstamp do
       end
       
       it 'should not be overridden when saved' do
-        subject.creator_id.should eq user_2.id
-        subject.creator.should eq user_2
-        subject.updater_id.should eq user_1.id
-        subject.updater.should eq user_1
+        expect(subject.creator_id).to eq user_2.id
+        expect(subject.creator).to eq user_2
+        expect(subject.updater_id).to eq user_1.id
+        expect(subject.updater).to eq user_1
       end
     end
   end
@@ -74,10 +74,10 @@ describe Mongoid::Userstamp do
       subject.save!
     end
 
-    it { subject.creator_id.should == user_1.id }
-    it { subject.creator.should == user_1 }
-    it { subject.updater_id.should == user_1.id }
-    it { subject.updater.should == user_1 }
+    it { expect(subject.creator_id).to eq(user_1.id) }
+    it { expect(subject.creator).to eq(user_1) }
+    it { expect(subject.updater_id).to eq(user_1.id) }
+    it { expect(subject.updater).to eq(user_1) }
 
     context 'when updated by a user' do
       before do
@@ -85,10 +85,10 @@ describe Mongoid::Userstamp do
         subject.save!
       end
 
-      it { subject.creator_id.should == user_1.id }
-      it { subject.creator.should == user_1 }
-      it { subject.updater_id.should == user_2.id }
-      it { subject.updater.should == user_2 }
+      it { expect(subject.creator_id).to eq(user_1.id) }
+      it { expect(subject.creator).to eq(user_1) }
+      it { expect(subject.updater_id).to eq(user_2.id) }
+      it { expect(subject.updater).to eq(user_2) }
     end
 
     context 'when user has been destroyed' do
@@ -100,10 +100,10 @@ describe Mongoid::Userstamp do
         subject.reload
       end
 
-      it { subject.creator_id.should == user_1.id }
-      it { subject.creator.should == nil }
-      it { subject.updater_id.should == user_2.id }
-      it { subject.updater.should == nil }
+      it { expect(subject.creator_id).to eq(user_1.id) }
+      it { expect(subject.creator).to eq(nil) }
+      it { expect(subject.updater_id).to eq(user_2.id) }
+      it { expect(subject.updater).to eq(nil) }
     end
   end
 
@@ -136,10 +136,10 @@ describe Mongoid::Userstamp do
         subject.save!
       end
 
-      it { subject.c_by_id.should == user_1.id }
-      it { subject.c_by.should == user_1 }
-      it { subject.u_by_id.should == user_1.id }
-      it { subject.u_by.should == user_1 }
+      it { expect(subject.c_by_id).to eq(user_1.id) }
+      it { expect(subject.c_by).to eq(user_1) }
+      it { expect(subject.u_by_id).to eq(user_1.id) }
+      it { expect(subject.u_by).to eq(user_1) }
 
       context 'when updated by a user' do
         before do
@@ -147,10 +147,10 @@ describe Mongoid::Userstamp do
           subject.save!
         end
 
-        it { subject.c_by_id.should == user_1.id }
-        it { subject.c_by.should == user_1 }
-        it { subject.u_by_id.should == user_2.id }
-        it { subject.u_by.should == user_2 }
+        it { expect(subject.c_by_id).to eq(user_1.id) }
+        it { expect(subject.c_by).to eq(user_1) }
+        it { expect(subject.u_by_id).to eq(user_2.id) }
+        it { expect(subject.u_by).to eq(user_2) }
       end
     end
   end
