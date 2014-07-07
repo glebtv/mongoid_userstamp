@@ -6,8 +6,8 @@ module Mongoid
       belongs_to Userstamp.config.creator_field, class_name: Userstamp.config.user_model_name
       belongs_to Userstamp.config.updater_field, class_name: Userstamp.config.user_model_name
 
-      before_save :set_updater
-      before_create :set_creator
+      before_validation :set_updater
+      before_validation :set_creator
 
       protected
 
