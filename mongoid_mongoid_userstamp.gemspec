@@ -18,10 +18,10 @@ Gem::Specification.new do |s|
 
   s.post_install_message = File.read('UPGRADING') if File.exists?('UPGRADING')
 
-  s.add_runtime_dependency 'mongoid', '~> 4.0.0.beta1'
+  s.add_runtime_dependency 'mongoid', '~> 4.0.2'
+  s.add_runtime_dependency 'request_store'
+
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec'
-  s.add_development_dependency 'yard'
-  s.add_development_dependency 'gem-release'
 end
 

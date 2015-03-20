@@ -13,7 +13,10 @@ Mongoid.configure do |config|
   )
 end
 
-Object.send :remove_const, :Config
+begin
+  Object.send :remove_const, :Config
+rescue Exception => e
+end
 Config = RbConfig
 
 Dir[File.expand_path('../support/**/*.rb', __FILE__)].each do |f|

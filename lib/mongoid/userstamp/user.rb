@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 module Mongoid
   module Userstamp
     module User
@@ -6,17 +5,17 @@ module Mongoid
 
       included do
         def current?
-          !Thread.current[:user].nil? && self._id == Thread.current[:user]._id
+          !RequestStore.store[:user].nil? && self._id == RequestStore.store[:user]._id
         end
       end
 
       module ClassMethods
         def current
-          Thread.current[:user]
+          RequestStore.store[:user]
         end
 
         def current=(value)
-          Thread.current[:user] = value
+          RequestStore.store[:user] = value
         end
 
         def do_as(user, &block)

@@ -5,6 +5,10 @@ This fork is INCOMPATIBLE with upstream due to different default field names
 This fork uses actual mongoid belongs_to relations instead of low level work with BSON fields. Primary reason for doing
 this is to support eager loading for creator/updater relation.
 
+Also, this gem uses [RequestStore](https://github.com/steveklabnik/request_store) instead of a thread local variable.
+
+Current user is availiable to you any time via ```RequestStore.store[:user]```
+
 MongoidUserstamp adds stamp columns for created by and updated by information within Rails applications using Mongoid ODM.
 
 ## Version Support

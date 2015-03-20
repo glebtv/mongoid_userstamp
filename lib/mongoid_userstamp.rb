@@ -1,4 +1,4 @@
-# -*- encoding : utf-8 -*-
+require 'request_store'
 require 'mongoid/userstamp'
 require 'mongoid/userstamp/version'
 require 'mongoid/userstamp/config'
