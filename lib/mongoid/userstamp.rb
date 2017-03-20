@@ -3,8 +3,8 @@ module Mongoid
     extend ActiveSupport::Concern
 
     included do
-      belongs_to Userstamp.config.creator_field, class_name: Userstamp.config.user_model_name, autosave: false, required: false
-      belongs_to Userstamp.config.updater_field, class_name: Userstamp.config.user_model_name, autosave: false, required: false
+      belongs_to Userstamp.config.creator_field, class_name: Userstamp.config.user_model_name, autosave: false, optional: true
+      belongs_to Userstamp.config.updater_field, class_name: Userstamp.config.user_model_name, autosave: false, optional: true
 
       before_validation :set_updater
       before_validation :set_creator
