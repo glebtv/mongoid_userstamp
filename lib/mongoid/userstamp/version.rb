@@ -1,5 +1,5 @@
 module Mongoid
   module Userstamp
-    VERSION = '0.9.1'
+    VERSION = '0.9.0'
   end
 end
