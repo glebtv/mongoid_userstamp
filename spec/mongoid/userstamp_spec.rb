@@ -130,6 +130,18 @@ describe Mongoid::Userstamp do
     end
     subject { Novel.new(name: 'Ethyl the Aardvark goes Quantity Surveying') }
 
+    context 'when created without user' do
+      before do
+        User.current = nil
+        subject.save!
+      end
+
+      it { expect(subject.c_by_id).to eq(nil) }
+      it { expect(subject.c_by).to eq(nil) }
+      it { expect(subject.u_by_id).to eq(nil) }
+      it { expect(subject.u_by).to eq(nil) }
+    end
+
     context 'when created by a user' do
       before do
         User.current = user_1
