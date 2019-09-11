@@ -42,7 +42,7 @@ module Mongoid
       def find_user(user_id)
         begin
           user_id ? Userstamp.config.user_model.unscoped.find(user_id) : nil
-        rescue Mongoid::Errors::DocumentNotFound => e
+        rescue Mongoid::Errors::DocumentNotFound
           nil
         end
       end
