@@ -58,7 +58,7 @@ describe Mongoid::Userstamp do
         subject.creator = user_2
         subject.save!
       end
-      
+
       it 'should not be overridden when saved' do
         expect(subject.creator_id).to eq user_2.id
         expect(subject.creator).to eq user_2
@@ -167,4 +167,9 @@ describe Mongoid::Userstamp do
     end
   end
 
+  it 'does not set inverse relation' do
+    User.current = user_1
+    subject.save!
+    expect(user_1.book).to be_nil
+  end
 end

@@ -3,8 +3,8 @@ module Mongoid
     extend ActiveSupport::Concern
 
     included do
-      belongs_to Userstamp.config.creator_field, class_name: Userstamp.config.user_model_name, autosave: false, optional: true
-      belongs_to Userstamp.config.updater_field, class_name: Userstamp.config.user_model_name, autosave: false, optional: true
+      belongs_to Userstamp.config.creator_field, class_name: Userstamp.config.user_model_name, autosave: false, optional: true, inverse_of: nil
+      belongs_to Userstamp.config.updater_field, class_name: Userstamp.config.user_model_name, autosave: false, optional: true, inverse_of: nil
 
       before_validation :set_updater
       before_validation :set_creator
@@ -42,7 +42,7 @@ module Mongoid
       def find_user(user_id)
         begin
           user_id ? Userstamp.config.user_model.unscoped.find(user_id) : nil
-        rescue Mongoid::Errors::DocumentNotFound => e
+        rescue Mongoid::Errors::DocumentNotFound
           nil
         end
       end

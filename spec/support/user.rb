@@ -4,4 +4,6 @@ class User
   include Mongoid::Userstamp::User
 
   field :name
+
+  belongs_to :book, optional: true
 end
